@@ -95,13 +95,14 @@ func _build_ui() -> void:
 	overlay.process_mode = Node.PROCESS_MODE_ALWAYS
 	add_child(overlay)
 
-func _process(_delta: float) -> void:
+func _unhandled_input(event: InputEvent) -> void:
 	if state == State.PLAYING and tutorial_visible:
-		if Input.is_any_action_pressed():
+		var key_pressed := event is InputEventKey and event.pressed and not event.echo
+		var mouse_pressed := event is InputEventMouseButton and event.pressed
+		if key_pressed or mouse_pressed:
 			tutorial_visible = false
 			_update_hud()
 
-func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("pause"):
 		if state == State.PLAYING:
 			_show_pause()
