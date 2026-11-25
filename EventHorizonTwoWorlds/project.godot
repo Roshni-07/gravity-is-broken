@@ -1,0 +1,36 @@
+; Engine configuration file.
+config_version=5
+
+[application]
+config/name="Event Horizon: Two Worlds"
+run/main_scene="res://ui/main_menu.tscn"
+config/features=PackedStringArray("4.7", "GL Compatibility")
+config/icon="res://icon.svg"
+
+[autoload]
+GameManager="*res://autoload/game_manager.gd"
+AudioManager="*res://autoload/audio_manager.gd"
+
+[display]
+window/size/viewport_width=1280
+window/size/viewport_height=720
+window/stretch/mode="canvas_items"
+window/stretch/aspect="expand"
+
+[input]
+move_left={"deadzone":0.5,"events":[Object(InputEventKey,"physical_keycode":65)]}
+move_right={"deadzone":0.5,"events":[Object(InputEventKey,"physical_keycode":68)]}
+move_up={"deadzone":0.5,"events":[Object(InputEventKey,"physical_keycode":87),Object(InputEventKey,"physical_keycode":4194320)]}
+move_down={"deadzone":0.5,"events":[Object(InputEventKey,"physical_keycode":83),Object(InputEventKey,"physical_keycode":4194322)]}
+jump={"deadzone":0.5,"events":[Object(InputEventKey,"physical_keycode":32)]}
+gravity_up={"deadzone":0.5,"events":[Object(InputEventKey,"physical_keycode":4194320)]}
+gravity_down={"deadzone":0.5,"events":[Object(InputEventKey,"physical_keycode":4194322)]}
+gravity_left={"deadzone":0.5,"events":[Object(InputEventKey,"physical_keycode":4194319)]}
+gravity_right={"deadzone":0.5,"events":[Object(InputEventKey,"physical_keycode":4194321)]}
+pause={"deadzone":0.5,"events":[Object(InputEventKey,"physical_keycode":4194305)]}
+restart={"deadzone":0.5,"events":[Object(InputEventKey,"physical_keycode":82)]}
+
+[rendering]
+renderer/rendering_method="gl_compatibility"
+renderer/rendering_method.mobile="gl_compatibility"
+textures/canvas_textures/default_texture_filter=0
