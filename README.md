@@ -1,5 +1,7 @@
 # GRAVITY IS BROKEN
 
+Three-level edition
+
 A short 2D top-down sci-fi puzzle made with Godot 4.7.2.
 
 ## Play
@@ -8,12 +10,22 @@ Open `project.godot` in Godot 4.7.2 and press the run button.
 
 - **WASD**: Move
 - **Arrow keys**: Change gravity
-- **R**: Restart the puzzle
+- **R**: Restart the current level
 - **Escape**: Pause or resume
 
 ## Objective
 
-The exit is locked. Change gravity to slide the amber cargo crate onto the yellow floor plate. Once the plate activates, the exit unlocks. Walk through the open door to escape.
+Complete three gravity puzzles:
+
+1. **The Awakening:** activate one pressure plate.
+2. **The Orbital Shift:** activate two pressure plates.
+3. **The Core:** activate both reactor mechanisms.
+
+In every level, change gravity to move the cargo crates, activate the required mechanisms, and walk through the exit door.
+
+## Level selection
+
+Levels unlock in sequence after completion. Completed levels are marked in the level-selection screen and can be replayed.
 
 ## Project structure
 
@@ -35,5 +47,5 @@ In Godot, open **Project > Export**, add **Windows Desktop**, install the matchi
 ## Known limitations
 
 - Uses procedural visuals rather than external artwork.
-- Gravity affects the cargo crate only.
+- Level progression lasts for the current game session; it does not save after closing the game.
 - This repository is intended to be built with Godot 4.7.2 Standard.

@@ -21,9 +21,12 @@ func _physics_process(_delta: float) -> void:
 	move_and_slide()
 
 func _draw() -> void:
-	draw_circle(Vector2.ZERO, 24.0, Color("#7bdcff"))
-	draw_circle(Vector2.ZERO, 19.0, Color("#d9edf3"))
+	draw_circle(Vector2.ZERO, 27.0, Color("#1b5e78").lightened(0.25))
+	draw_circle(Vector2.ZERO, 22.0, Color("#63dfff"))
+	draw_circle(Vector2.ZERO, 17.0, Color("#d9edf3"))
 	draw_rect(Rect2(-14, -16, 28, 32), Color("#173a57"))
-	draw_circle(Vector2(12, 0), 7.0, Color("#63d5ff"))
+	draw_rect(Rect2(-9, -10, 18, 8), Color("#63d5ff"))
+	draw_circle(Vector2(12, 2), 7.0, Color("#63d5ff"))
 	draw_rect(Rect2(-18, 15, 36, 7), Color("#88a8b8"))
-	draw_circle(Vector2(20, 0), 4.0, Color("#f0fcff"))
+	draw_circle(Vector2(20, 2), 4.0, Color("#efffff"))
+	draw_line(Vector2(18, 2), Vector2(27, 2), Color("#ff71d3"), 3.0)
