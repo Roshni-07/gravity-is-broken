@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en-IN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#101812">
+    <meta name="description" content="A private, local-first personal finance ledger for India.">
+    <title>Rupee Ledger — Personal finance</title>
+    <link rel="stylesheet" href="/styles.css">
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <a class="brand" href="/" aria-label="Rupee Ledger home">
+          <span class="brand-mark" aria-hidden="true">₹</span>
+          <span>rupee<span class="brand-light">ledger</span></span>
+        </a>
+        <div class="topbar-right">
+          <span class="privacy-note"><span class="privacy-dot"></span>Private on this device</span>
+          <button class="button button-quiet" id="export-button" type="button">Export CSV</button>
+        </div>
+      </header>
+
+      <main>
+        <section class="page-heading" aria-labelledby="page-title">
+          <div>
+            <p class="eyebrow">YOUR MONEY, IN ONE PLACE</p>
+            <h1 id="page-title">Payment history</h1>
+            <p class="page-description">A clear record of what came in and what went out.</p>
+          </div>
+          <div class="period-chip"><span class="period-dot"></span>All recorded activity</div>
+        </section>
+
+        <section class="summary-grid" aria-label="Ledger summary">
+          <article class="summary-card summary-net">
+            <div class="summary-top"><span class="summary-label">Net recorded activity</span><span class="summary-icon" aria-hidden="true">↗</span></div>
+            <p class="summary-value" id="net-total">₹0.00</p>
+            <p class="summary-hint">Income minus expenses in this ledger</p>
+          </article>
+          <article class="summary-card">
+            <div class="summary-top"><span class="summary-label">Money in</span><span class="summary-icon icon-income" aria-hidden="true">↓</span></div>
+            <p class="summary-value" id="income-total">₹0.00</p>
+            <p class="summary-hint">Recorded credits</p>
+          </article>
+          <article class="summary-card">
+            <div class="summary-top"><span class="summary-label">Money out</span><span class="summary-icon icon-expense" aria-hidden="true">↑</span></div>
+            <p class="summary-value" id="expense-total">₹0.00</p>
+            <p class="summary-hint">Recorded debits</p>
+          </article>
+        </section>
+
+        <section class="source-panel" aria-labelledby="sources-title">
+          <div class="source-copy">
+            <div class="source-heading">
+              <span class="upi-mark" aria-hidden="true">U</span>
+              <div>
+                <h2 id="sources-title">Payment sources</h2>
+                <p>Bring your payment history together without handing over account access.</p>
+              </div>
+            </div>
+          </div>
+          <div class="source-status">
+            <span class="status-indicator" aria-hidden="true"></span>
+            <div><strong>UPI not connected</strong><span>No provider integration is configured</span></div>
+          </div>
+          <div class="source-divider" aria-hidden="true"></div>
+          <div class="source-import">
+            <span class="import-icon" aria-hidden="true">⇧</span>
+            <div><strong>Statement import</strong><span>CSV file · preview before saving</span></div>
+            <button class="button button-secondary" id="choose-file-button" type="button">Choose CSV</button>
+            <input id="statement-file" type="file" accept=".csv,text/csv" hidden>
+          </div>
+        </section>
+        <p class="source-disclaimer">No bank or UPI app is connected. Imported and manual entries are stored only on this device.</p>
+
+        <section class="import-panel" id="import-panel" aria-labelledby="import-title" hidden>
+          <div class="section-heading import-heading">
+            <div><p class="eyebrow">REVIEW BEFORE ADDING</p><h2 id="import-title">Import a statement</h2></div>
+            <button class="icon-button" id="cancel-import-button" type="button" aria-label="Close import preview">×</button>
+          </div>
+          <p class="import-filename" id="import-filename"></p>
+          <div class="mapping-grid">
+            <label>Date column<select id="map-date"></select></label>
+            <label>Description column<select id="map-description"></select></label>
+            <label>Amount column<select id="map-amount"></select></label>
+            <label>Type column <span class="optional">(optional)</span><select id="map-type"></select></label>
+          </div>
+          <div class="import-message" id="import-message" role="status" aria-live="polite"></div>
+          <div class="preview-wrap" id="preview-wrap" hidden>
+            <table class="preview-table">
+              <thead><tr><th>Date</th><th>Description</th><th>Type</th><th class="amount-cell">Amount</th><th>Match</th></tr></thead>
+              <tbody id="preview-body"></tbody>
+            </table>
+          </div>
+          <div class="import-actions">
+            <label class="checkbox-label"><input id="skip-duplicates" type="checkbox" checked> Skip exact matches already in this ledger</label>
+            <button class="button button-primary" id="confirm-import-button" type="button" disabled>Import reviewed rows</button>
+          </div>
+          <p class="fine-print">CSV values are treated as data, not verified bank transactions. Check the preview and your statement before importing.</p>
+        </section>
+
+        <section class="ledger-section" aria-labelledby="transactions-title">
+          <div class="section-heading">
+            <div><p class="eyebrow">YOUR LEDGER</p><h2 id="transactions-title">Transactions <span class="count-pill" id="transaction-count">0</span></h2></div>
+            <button class="button button-primary" id="show-entry-button" type="button"><span aria-hidden="true">+</span> Add transaction</button>
+          </div>
+          <form class="entry-form" id="entry-form" hidden>
+            <div class="entry-form-heading"><div><h3>Add a transaction</h3><p>Enter a payment or receipt you want to track.</p></div><button class="icon-button" id="cancel-entry-button" type="button" aria-label="Cancel adding a transaction">×</button></div>
+            <div class="entry-fields">
+              <label>Description<input id="entry-description" name="description" maxlength="160" placeholder="e.g. Groceries" required></label>
+              <label>Amount (₹)<input id="entry-amount" name="amount" inputmode="decimal" placeholder="0.00" required></label>
+              <label>Date<input id="entry-date" name="date" type="date" required></label>
+              <label>Direction<select id="entry-type" name="type"><option value="debit">Money out</option><option value="credit">Money in</option></select></label>
+            </div>
+            <div class="entry-form-footer"><p>Saved on this device only.</p><button class="button button-primary" type="submit">Save transaction</button></div>
+          </form>
+
+          <div class="notice" id="app-notice" role="status" aria-live="polite" hidden></div>
+          <div class="ledger-toolbar">
+            <label class="search-field"><span aria-hidden="true">⌕</span><input id="search-input" type="search" placeholder="Search transactions" aria-label="Search transactions"></label>
+            <label class="filter-field"><span class="visually-hidden">Filter by transaction type</span><select id="type-filter"><option value="all">All activity</option><option value="debit">Money out</option><option value="credit">Money in</option></select></label>
+          </div>
+          <div class="table-wrap">
+            <table class="transaction-table">
+              <thead><tr><th>Date</th><th>Description</th><th>Source</th><th>Type</th><th class="amount-cell">Amount</th></tr></thead>
+              <tbody id="transaction-rows"></tbody>
+            </table>
+            <div class="empty-state" id="empty-state">
+              <span class="empty-icon" aria-hidden="true">₹</span>
+              <h3>No transactions yet</h3>
+              <p>Add one manually or import a CSV statement to start your history.</p>
+              <button class="button button-secondary" id="empty-add-button" type="button">Add your first transaction</button>
+            </div>
+          </div>
+          <p class="storage-note"><span aria-hidden="true">●</span> This ledger is stored in a local SQLite database. It is not a bank balance or synced UPI history.</p>
+        </section>
+      </main>
+      <footer><span>Rupee Ledger</span><span>Local-first · India-friendly · No provider connected</span></footer>
+    </div>
+    <script type="module" src="/app.js"></script>
+  </body>
+</html>
